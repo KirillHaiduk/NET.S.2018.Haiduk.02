@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 
 namespace Day2Task6
-{
+{    
     /// <summary>
     /// The filtering class
     /// </summary>
     public class Filter
     {
+        #region Public members
         /// <summary>
         /// Method which takes an array of integers and filters it so that only numbers containing the given digit remain on the output
         /// </summary>
@@ -18,7 +19,7 @@ namespace Day2Task6
         {
             if (digit > 9 || digit < 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(digit)} must be from 0 to 9.");
+                throw new ArgumentOutOfRangeException($"{nameof(digit)} must be from 0 to 9");
             }
 
             if (array.Length == 0)
@@ -29,7 +30,7 @@ namespace Day2Task6
             List<int> list = new List<int>();
             for (int i = 0; i < array.Length; i++)
             {
-                if (array[i].ToString().Contains(digit.ToString()))
+                if (ContainsDigit(array[i], digit))
                 {
                     list.Add(array[i]);
                 }
@@ -39,10 +40,35 @@ namespace Day2Task6
             {
                 return null;
             }
-            else
-            {
-                return list.ToArray();
-            }
+
+            return list.ToArray();
         }
+        #endregion
+
+        #region Private members
+        /// <summary>
+        /// Method which returns if accepted item of array contains digit
+        /// </summary>
+        /// <param name="item">Item of given array</param>
+        /// <param name="digit">Filtering digit</param>
+        /// <returns>True or false depending on whether item contains digit</returns>
+        private static bool ContainsDigit(int item, int digit)
+        {
+            int temp = item;
+
+            for (int i = 0; i < item.ToString().Length; i++)
+            {
+                var divisionResult = temp / 10;
+                int remainder = temp % 10;
+                temp = divisionResult;
+                if (Math.Abs(remainder) == digit)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        #endregion
     }
 }
